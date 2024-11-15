@@ -26,7 +26,28 @@
 --     "posts_pkey" PRIMARY KEY, btree (id)
 
 
+--                                         Table "public.generate"
+--   Column   |          Type           | Collation | Nullable |                 Default                  
+-- -----------+-------------------------+-----------+----------+------------------------------------------
+--  gen_id    | integer                 |           | not null | nextval('generate_gen_id_seq'::regclass)
+--  summary   | character varying(3000) |           |          | 
+--  sentiment | character varying(50)   |           |          | 
+--  id        | integer                 |           |          | 
+-- Indexes:
+--     "generate_pkey" PRIMARY KEY, btree (gen_id)
+-- Foreign-key constraints:
+--     "generate_id_fkey" FOREIGN KEY (id) REFERENCES posts(id)
 
+
+
+
+--                                       Table "public.languages"
+--   Column  |         Type          | Collation | Nullable |                  Default                  
+-- ----------+-----------------------+-----------+----------+-------------------------------------------
+--  lan_id   | integer               |           | not null | nextval('languages_lan_id_seq'::regclass)
+--  language | character varying(50) |           |          | 
+-- Indexes:
+--     "languages_pkey" PRIMARY KEY, btree (lan_id)
 
 
 --  id |                     title                      |                                                                                                                                                                                        content                                                                                                                                                                                        | summary | sentiment 

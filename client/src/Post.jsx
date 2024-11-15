@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 const Posts = () => {
   const [post, setPost] = useState([]);
-  const [summary, setSummary] = useState("")
+  const [summary, setSummary] = useState({})
   const {id} = useParams();
 
   const getPost = async () => {
@@ -16,11 +16,43 @@ const Posts = () => {
     }
   };
 
-  const summazize = async()=>{
+  const handleClick = async()=>{
+    try{
+    const response = await fetch('http://localhost:3000/api',{
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({"id": id})
+    }
+  );
+  if (response.ok) {
+    const data = await response.json()
+    setSummary(data)
+  }
+  else{
+      throw new Error('analys the content')
+  }
+}
+ catch (error) {
+  console.log(error.message);
+
+   };
+  }
+
+  const deletePost = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/summarize/${id}`);
-      const data = await response.json();
-      setSummary(data)
+      const response = await fetch(
+        `http://localhost:3000/posts/:{id}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        window.location.href = "/";
+      } else {
+        throw new error("cannot delete");
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -55,8 +87,9 @@ const Posts = () => {
             </div>
           </div>
           <div>
-            <button onClick={summazize}>Summarize</button>
-            <p>{JSON.stringify(summary)}</p>
+            <button onClick={deletePost}>Delete</button>
+            <button onClick={handleClick}>Summarize</button>
+            {summary ? <p>{summary.summary}</p> : <p>No summary available</p>}
           </div>
          
       
